@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -177,7 +179,7 @@ public class NavigationScreenViewer extends JFrame {
 			});
 			bod.add(back);
 			
-			ImageIcon mep = new ImageIcon("images/dcmap.png");
+			ImageIcon mep = new ImageIcon("images/locs.png");
 			Image met = mep.getImage();
 			Image mek = met.getScaledInstance(600, 450, Image.SCALE_SMOOTH);
 			mep = new ImageIcon(mek);
@@ -299,6 +301,10 @@ public class NavigationScreenViewer extends JFrame {
 	public class LocationScreen extends JFrame{
 		
 		Font forAll = new Font("Monospaced", Font.BOLD, 30);
+		ImageIcon gat = new ImageIcon("images/gas.png");
+		ImageIcon att = new ImageIcon("images/atta.png");
+		ImageIcon rep = new ImageIcon("images/rest.png");
+		ImageIcon reg = new ImageIcon("images/locs.png");
 		
 		public LocationScreen() {
 			
@@ -327,8 +333,8 @@ public class NavigationScreenViewer extends JFrame {
 			ls.add(locs);
 			
 			JPanel tons = new JPanel();
-			tons.setLayout(new GridLayout(2,2));
-			this.add(tons);
+			tons.setLayout(new GridLayout(4,1));
+			this.add(tons, BorderLayout.EAST);
 			
 			JButton attraction = new JButton("Attractions");
 			attraction.setFont(forAll);
@@ -346,11 +352,50 @@ public class NavigationScreenViewer extends JFrame {
 			atm.setFont(forAll);
 			tons.add(atm);
 			
+			JPanel map = new JPanel();
+			Image met = reg.getImage();
+			Image mek = met.getScaledInstance(600, 450, Image.SCALE_SMOOTH);
+			reg = new ImageIcon(mek);
+			JLabel mapping = new JLabel(reg);
+			map.add(mapping);
+			this.add(map);
+
+			
+			attraction.addActionListener(new ChangeMapListener(map, att));
+			rest.addActionListener(new ChangeMapListener(map, rep));
+			gas.addActionListener(new ChangeMapListener(map, gat));
+			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
 			this.setResizable(false);
 			this.setVisible(true);
 		}
+	}
+	
+	public class ChangeMapListener implements ActionListener{
+		
+		JPanel map;
+		ImageIcon image;
+		
+		public ChangeMapListener(JPanel m, ImageIcon i) {
+			this.map = m;
+			this.image = i;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			map.removeAll();
+			Image met = image.getImage();
+			Image mek = met.getScaledInstance(600, 450, Image.SCALE_SMOOTH);
+			image = new ImageIcon(mek);
+			JLabel mapping = new JLabel(image);
+			map.add(mapping);
+			map.validate();
+			map.repaint();
+			map.printAll(getGraphics());
+		}
+		
+		
 	}
 
 }
