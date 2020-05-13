@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 public class NavigationScreenViewer extends JFrame {
 	
@@ -65,6 +68,7 @@ public class NavigationScreenViewer extends JFrame {
 		NavigationScreenViewer ss = new NavigationScreenViewer();
 		ss.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ss.setLocationRelativeTo(null);
+		ss.setResizable(false);
 		ss.setVisible(true);
 		
 	}
@@ -182,6 +186,7 @@ public class NavigationScreenViewer extends JFrame {
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 		}
 	}
@@ -214,6 +219,7 @@ public class NavigationScreenViewer extends JFrame {
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 		}
 	}
@@ -226,7 +232,25 @@ public class NavigationScreenViewer extends JFrame {
 			this.setSize(800, 500);
 			
 			JPanel ds = new JPanel();
-			this.add(ds);
+			this.add(ds, BorderLayout.NORTH);
+			
+			JPanel ps = new JPanel();
+			GridLayout gl = new GridLayout(4,2);
+			ps.setLayout(gl);
+			
+			JLabel address = new JLabel("Street Address:");
+			JTextField addy = new JTextField("Enter Address Here");
+			JLabel cit = new JLabel("City:");
+			JTextField city = new JTextField("Enter City Here");
+			JLabel stit = new JLabel("City:");
+			JTextField state = new JTextField("Enter State Abr. Here");
+			JLabel zipy = new JLabel("Zip Code: ");
+			JTextField zip = new JTextField("Enter 5 Digit Zip Code Here");
+			ps.add(address); ps.add(addy); 
+			ps.add(cit); ps.add(city); 
+			ps.add(stit); ps.add(state); 
+			ps.add(zipy); ps.add(zip);         
+			this.add(ps, BorderLayout.CENTER);
 			
 			JButton back = new JButton("BACK TO HOME SCREEN");
 			back.setBackground(Color.ORANGE);
@@ -240,12 +264,10 @@ public class NavigationScreenViewer extends JFrame {
 			});
 			ds.add(back);
 			
-			JLabel type = new JLabel("ENTER DESTINATION:");
-			type.setFont(new Font("Serif", Font.BOLD, 40));
-			ds.add(type);
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 			
 		}
@@ -280,6 +302,7 @@ public class NavigationScreenViewer extends JFrame {
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 		}
 	}
