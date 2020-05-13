@@ -193,13 +193,16 @@ public class NavigationScreenViewer extends JFrame {
 	
 	public class RouteScreen extends JFrame{
 		
+		Font forAll = new Font("Monospaced", Font.BOLD, 30);
+		
 		public RouteScreen() {
 			
 			this.setTitle("Routes");
 			this.setSize(800, 500);
 			
 			JPanel rr = new JPanel();
-			this.add(rr);
+			rr.setLayout(new GridLayout(2,1));
+			this.add(rr, BorderLayout.NORTH);
 			
 			JButton back = new JButton("BACK TO HOME SCREEN");
 			back.setBackground(Color.ORANGE);
@@ -216,6 +219,26 @@ public class NavigationScreenViewer extends JFrame {
 			JLabel choices = new JLabel("CHOOSE ROUTE BY...");
 			choices.setFont(new Font("Serif", Font.BOLD, 35));
 			rr.add(choices);
+			
+			JPanel buts = new JPanel();
+			buts.setLayout(new GridLayout(2,2));
+			this.add(buts, BorderLayout.CENTER);
+			
+			JButton shortestDistance = new JButton("Shortest Distance");
+			shortestDistance.setFont(forAll);
+			buts.add(shortestDistance);
+			
+			JButton shortestTime = new JButton("Shortest Time");
+			shortestTime.setFont(forAll);
+			buts.add(shortestTime);
+			
+			JButton maxDistance = new JButton("Maximum Distance");
+			maxDistance.setFont(forAll);
+			buts.add(maxDistance);
+			
+			JButton maxTime = new JButton("Maximum Time");
+			maxTime.setFont(forAll);
+			buts.add(maxTime);
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
@@ -275,6 +298,8 @@ public class NavigationScreenViewer extends JFrame {
 	
 	public class LocationScreen extends JFrame{
 		
+		Font forAll = new Font("Monospaced", Font.BOLD, 30);
+		
 		public LocationScreen() {
 			
 			this.setTitle("Locations");
@@ -282,7 +307,8 @@ public class NavigationScreenViewer extends JFrame {
 			
 			
 			JPanel ls = new JPanel();
-			this.add(ls);
+			ls.setLayout(new GridLayout(2,1));
+			this.add(ls, BorderLayout.NORTH);
 			
 			JButton back = new JButton("BACK TO HOME SCREEN");
 			back.setBackground(Color.ORANGE);
@@ -299,6 +325,26 @@ public class NavigationScreenViewer extends JFrame {
 			JLabel locs = new JLabel("SELECT ONE FOR MORE OPTIONS");
 			locs.setFont(new Font("Serif", Font.BOLD, 30));
 			ls.add(locs);
+			
+			JPanel tons = new JPanel();
+			tons.setLayout(new GridLayout(2,2));
+			this.add(tons);
+			
+			JButton attraction = new JButton("Attractions");
+			attraction.setFont(forAll);
+			tons.add(attraction);
+			
+			JButton rest = new JButton("Restaurants");
+			rest.setFont(forAll);
+			tons.add(rest);
+			
+			JButton gas = new JButton("Gas Stations");
+			gas.setFont(forAll);
+			tons.add(gas);
+			
+			JButton atm = new JButton("ATM / Banks");
+			atm.setFont(forAll);
+			tons.add(atm);
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
