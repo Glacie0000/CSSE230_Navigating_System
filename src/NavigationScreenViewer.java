@@ -348,9 +348,9 @@ public class NavigationScreenViewer extends JFrame {
 			gas.setFont(forAll);
 			tons.add(gas);
 			
-			JButton atm = new JButton("ATM / Banks");
-			atm.setFont(forAll);
-			tons.add(atm);
+			JButton cities = new JButton("Cities");
+			cities.setFont(forAll);
+			tons.add(cities);
 			
 			JPanel map = new JPanel();
 			Image met = reg.getImage();
@@ -392,7 +392,6 @@ public class NavigationScreenViewer extends JFrame {
 			map.add(mapping);
 			map.validate();
 			map.repaint();
-			map.printAll(getGraphics());
 		}
 		
 		
