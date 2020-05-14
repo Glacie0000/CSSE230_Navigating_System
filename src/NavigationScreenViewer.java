@@ -3,9 +3,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 public class NavigationScreenViewer extends JFrame {
 	
@@ -65,6 +70,7 @@ public class NavigationScreenViewer extends JFrame {
 		NavigationScreenViewer ss = new NavigationScreenViewer();
 		ss.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ss.setLocationRelativeTo(null);
+		ss.setResizable(false);
 		ss.setVisible(true);
 		
 	}
@@ -173,7 +179,7 @@ public class NavigationScreenViewer extends JFrame {
 			});
 			bod.add(back);
 			
-			ImageIcon mep = new ImageIcon("images/dcmap.png");
+			ImageIcon mep = new ImageIcon("images/locs.png");
 			Image met = mep.getImage();
 			Image mek = met.getScaledInstance(600, 450, Image.SCALE_SMOOTH);
 			mep = new ImageIcon(mek);
@@ -182,11 +188,14 @@ public class NavigationScreenViewer extends JFrame {
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 		}
 	}
 	
 	public class RouteScreen extends JFrame{
+		
+		Font forAll = new Font("Monospaced", Font.BOLD, 30);
 		
 		public RouteScreen() {
 			
@@ -194,7 +203,8 @@ public class NavigationScreenViewer extends JFrame {
 			this.setSize(800, 500);
 			
 			JPanel rr = new JPanel();
-			this.add(rr);
+			rr.setLayout(new GridLayout(2,1));
+			this.add(rr, BorderLayout.NORTH);
 			
 			JButton back = new JButton("BACK TO HOME SCREEN");
 			back.setBackground(Color.ORANGE);
@@ -212,8 +222,29 @@ public class NavigationScreenViewer extends JFrame {
 			choices.setFont(new Font("Serif", Font.BOLD, 35));
 			rr.add(choices);
 			
+			JPanel buts = new JPanel();
+			buts.setLayout(new GridLayout(2,2));
+			this.add(buts, BorderLayout.CENTER);
+			
+			JButton shortestDistance = new JButton("Shortest Distance");
+			shortestDistance.setFont(forAll);
+			buts.add(shortestDistance);
+			
+			JButton shortestTime = new JButton("Shortest Time");
+			shortestTime.setFont(forAll);
+			buts.add(shortestTime);
+			
+			JButton maxDistance = new JButton("Maximum Distance");
+			maxDistance.setFont(forAll);
+			buts.add(maxDistance);
+			
+			JButton maxTime = new JButton("Maximum Time");
+			maxTime.setFont(forAll);
+			buts.add(maxTime);
+			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 		}
 	}
@@ -226,7 +257,25 @@ public class NavigationScreenViewer extends JFrame {
 			this.setSize(800, 500);
 			
 			JPanel ds = new JPanel();
-			this.add(ds);
+			this.add(ds, BorderLayout.NORTH);
+			
+			JPanel ps = new JPanel();
+			GridLayout gl = new GridLayout(4,2);
+			ps.setLayout(gl);
+			
+			JLabel address = new JLabel("Street Address:");
+			JTextField addy = new JTextField("Enter Address Here");
+			JLabel cit = new JLabel("City:");
+			JTextField city = new JTextField("Enter City Here");
+			JLabel stit = new JLabel("City:");
+			JTextField state = new JTextField("Enter State Abr. Here");
+			JLabel zipy = new JLabel("Zip Code: ");
+			JTextField zip = new JTextField("Enter 5 Digit Zip Code Here");
+			ps.add(address); ps.add(addy); 
+			ps.add(cit); ps.add(city); 
+			ps.add(stit); ps.add(state); 
+			ps.add(zipy); ps.add(zip);         
+			this.add(ps, BorderLayout.CENTER);
 			
 			JButton back = new JButton("BACK TO HOME SCREEN");
 			back.setBackground(Color.ORANGE);
@@ -240,18 +289,22 @@ public class NavigationScreenViewer extends JFrame {
 			});
 			ds.add(back);
 			
-			JLabel type = new JLabel("ENTER DESTINATION:");
-			type.setFont(new Font("Serif", Font.BOLD, 40));
-			ds.add(type);
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 			
 		}
 	}
 	
 	public class LocationScreen extends JFrame{
+		
+		Font forAll = new Font("Monospaced", Font.BOLD, 30);
+		ImageIcon gat = new ImageIcon("images/gas.png");
+		ImageIcon att = new ImageIcon("images/atta.png");
+		ImageIcon rep = new ImageIcon("images/rest.png");
+		ImageIcon reg = new ImageIcon("images/locs.png");
 		
 		public LocationScreen() {
 			
@@ -260,7 +313,8 @@ public class NavigationScreenViewer extends JFrame {
 			
 			
 			JPanel ls = new JPanel();
-			this.add(ls);
+			ls.setLayout(new GridLayout(2,1));
+			this.add(ls, BorderLayout.NORTH);
 			
 			JButton back = new JButton("BACK TO HOME SCREEN");
 			back.setBackground(Color.ORANGE);
@@ -278,10 +332,70 @@ public class NavigationScreenViewer extends JFrame {
 			locs.setFont(new Font("Serif", Font.BOLD, 30));
 			ls.add(locs);
 			
+			JPanel tons = new JPanel();
+			tons.setLayout(new GridLayout(4,1));
+			this.add(tons, BorderLayout.EAST);
+			
+			JButton attraction = new JButton("Attractions");
+			attraction.setFont(forAll);
+			tons.add(attraction);
+			
+			JButton rest = new JButton("Restaurants");
+			rest.setFont(forAll);
+			tons.add(rest);
+			
+			JButton gas = new JButton("Gas Stations");
+			gas.setFont(forAll);
+			tons.add(gas);
+			
+			JButton atm = new JButton("ATM / Banks");
+			atm.setFont(forAll);
+			tons.add(atm);
+			
+			JPanel map = new JPanel();
+			Image met = reg.getImage();
+			Image mek = met.getScaledInstance(600, 450, Image.SCALE_SMOOTH);
+			reg = new ImageIcon(mek);
+			JLabel mapping = new JLabel(reg);
+			map.add(mapping);
+			this.add(map);
+
+			
+			attraction.addActionListener(new ChangeMapListener(map, att));
+			rest.addActionListener(new ChangeMapListener(map, rep));
+			gas.addActionListener(new ChangeMapListener(map, gat));
+			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 			this.setVisible(true);
 		}
+	}
+	
+	public class ChangeMapListener implements ActionListener{
+		
+		JPanel map;
+		ImageIcon image;
+		
+		public ChangeMapListener(JPanel m, ImageIcon i) {
+			this.map = m;
+			this.image = i;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			map.removeAll();
+			Image met = image.getImage();
+			Image mek = met.getScaledInstance(600, 450, Image.SCALE_SMOOTH);
+			image = new ImageIcon(mek);
+			JLabel mapping = new JLabel(image);
+			map.add(mapping);
+			map.validate();
+			map.repaint();
+			map.printAll(getGraphics());
+		}
+		
+		
 	}
 
 }
