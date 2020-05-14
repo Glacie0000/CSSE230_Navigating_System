@@ -3,7 +3,7 @@ import java.util.LinkedList;
 
 public class WeightedGraph {
 
-	private LinkedList<Edge> adj[];
+	private ArrayList<Edge> adj[];
 	Vertex[] vertices;
 	private int vNum;
 	
@@ -11,7 +11,7 @@ public class WeightedGraph {
 		this.vNum = vNum;
 		Vertex[] vertices = new Vertex[this.vNum];
 		for(int i = 0; i < vNum; i++)
-			this.adj[i] = new LinkedList<Edge>();
+			this.adj[i] = new ArrayList<Edge>();
 	}
 	
 	public void addEdge(int source, int destination, int weight) {
@@ -24,16 +24,13 @@ public class WeightedGraph {
 	
 	private class Vertex {
 		public int x, y;
-		public int distance;
 		public int id;
-		public int f;
 		
 		public Vertex(int id, int x, int y) {
 			this.x = x;
 			this.y = y;
 			this.id = id;
-			this.f = Integer.MAX_VALUE;
-			this.distance = Integer.MAX_VALUE;
+			
 		}
 		
 	}
@@ -51,8 +48,12 @@ public class WeightedGraph {
 		
 	}
 	
+	public int manhattanDistance(Vertex v1, Vertex v2) {
+		return Math.abs(v1.x - v2.x) + Math.abs(v1.y - v2.y);
+	}
+	
 	public void Astar() {
-		//To be implemented
+		//To be implemented to implement a new graph everytime
 	}
 	
 	
