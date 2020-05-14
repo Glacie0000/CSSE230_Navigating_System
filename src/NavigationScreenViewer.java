@@ -65,16 +65,6 @@ public class NavigationScreenViewer extends JFrame {
 		
 	}
 	
-	public static void main(String[] args) {
-		
-		NavigationScreenViewer ss = new NavigationScreenViewer();
-		ss.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ss.setLocationRelativeTo(null);
-		ss.setResizable(false);
-		ss.setVisible(true);
-		
-	}
-	
 	@SuppressWarnings("serial")
 	public class UserScreen extends JFrame{
 		
