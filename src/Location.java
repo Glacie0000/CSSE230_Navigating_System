@@ -1,23 +1,28 @@
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.ArrayList;
 
-public abstract class Location implements Comparator<Location>{
+
+public class Location{
 	
 	protected int distance;
 	protected String name;
 	protected int xPos;
 	protected int yPos;
-	protected PriorityQueue<Location> locationQueue;
+	protected ArrayList<Location> restaurants;
+	protected ArrayList<Location> gasStations;
+	protected ArrayList<Location> attractions;
+	protected ArrayList<Location> cities;
 	
 	public Location(int x, int y, String name) {
 		this.xPos = x;
 		this.yPos = y;
 		this.name = name;
 		this.distance = 0;
-		this.locationQueue = new PriorityQueue<Location>(10, locationComparator());
+		this.restaurants = new ArrayList<Location>();
+		this.gasStations = new ArrayList<Location>();
+		this.attractions = new ArrayList<Location>();
+		this.cities = new ArrayList<Location>();
 	}
 	
-	public abstract int shortestRoute();
 	
 	public int distanceFrom(Location otherLoc) {
 		return (int) Math.sqrt(Math.pow(xPos- otherLoc.xPos, 2) - Math.pow(yPos- otherLoc.yPos, 2));
@@ -41,29 +46,5 @@ public abstract class Location implements Comparator<Location>{
 	public void setDistance(int newDist) {
 		this.distance = newDist;
 	}
-	
-	public int compareTo(Location otherLoc) {
-		if(this.distance > otherLoc.distance) {
-			return 1;
-		}
-		else if(this.distance < otherLoc.distance) {
-			return -1;
-		}
-		else {
-			return 0;
-		}
-	}
-	
-	public Comparator<Location> locationComparator(){
-		return new Comparator<Location>() {
-			@Override
-			public int compare(Location loc1, Location loc2) {
-				// TODO Auto-generated method stub
-				return loc1.compareTo(loc2);
-			}
-		};
-	}
-	
-	
 
 }
