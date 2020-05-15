@@ -15,7 +15,6 @@ public abstract class Location implements Comparator<Location>{
 		this.name = name;
 		this.distance = 0;
 		this.locationQueue = new PriorityQueue<Location>(10, locationComparator());
-//		so each location is going to have 10 things nearby regardless of how close or far away they are?
 	}
 	
 	public abstract int shortestRoute();
