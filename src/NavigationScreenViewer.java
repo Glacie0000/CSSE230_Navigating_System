@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,21 +23,34 @@ import javax.swing.SpringLayout;
 
 public class NavigationScreenViewer extends JFrame {
 	
+	public static final String TITLE = "Checkered Treehouse Navigation System";
+	public static final int SCREEN_WIDTH = 800;
+	public static final int SCREEN_HEIGHT = 500;
+	
+	public static final String SELECT_ONE = "Please Select One";
+	public static final String[] LOCATION_LIST = {"Restaurants", "Gas Stations", "Attractions", "Cities"};
+	public static final String[] RESTAURANT_LIST = {"All-Purpose Shaw", "Ambar Capitol Hill", "Bistro Aracosia", "Clyde’s of Georgetown",
+			"Founding Farmers DC ", "Le Diplomate", "Thip Khao Restaurant", "Zaytinya"};
+	public static final String[] GAS_STATION_LIST = {"BP", "Davis EXXON", "Florida Avenue EXXON", "Marathon", "Sunco"};
+	public static final String[] ATTRACTION_LIST = {"Basilica of the National Shrine of the Immaculate Conception", "Lafayette Square", "Lincoln Memorial", "Smithsonian National Air and Space Museum",
+			"Smithsonian National Zoological Park", "United States Holocaust Memorial Museum", "United States National Arboretum", "Washington National Cathedral"};
+	public static final String[] CITIES_LIST = {"Indianapolis"};
+
+	
 	public NavigationScreenViewer() {
 		
-		this.setTitle("Checkered Treehouse Presents...");
-		this.setSize(800, 500);
+		this.setTitle(TITLE);
+		this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		JPanel starting = new JPanel();
+		starting.setLayout(new FlowLayout());
 		this.add(starting, BorderLayout.SOUTH);
 		
 		ImageIcon nav = new ImageIcon("images/navscreen.png");
 		Image van = nav.getImage();
 		Image sal = van.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
 		nav = new ImageIcon(sal);
-		
-		JLabel lp = new JLabel(nav);
-		starting.add(lp);
+		JLabel lp = new JLabel(nav);		
 		
 		JButton exit = new JButton("EXIT");
 		exit.setBackground(Color.red);
@@ -60,6 +75,7 @@ public class NavigationScreenViewer extends JFrame {
 		});
 		
 		starting.add(exit);
+		starting.add(lp);
 		starting.add(cont);
 		
 		
@@ -75,8 +91,8 @@ public class NavigationScreenViewer extends JFrame {
 		
 		public UserScreen() {
 			
-			this.setTitle("Navigation Options");
-			this.setSize(800, 500);
+			this.setTitle(TITLE);
+			this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 			
 			JPanel selection = new JPanel();
 			this.add(selection);
@@ -151,8 +167,8 @@ public class NavigationScreenViewer extends JFrame {
 		
 		public MapScreen() {
 			
-			this.setTitle("Map");
-			this.setSize(800, 500);
+			this.setTitle(TITLE);
+			this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 			
 			JPanel bod = new JPanel();
 			this.add(bod);
@@ -189,11 +205,10 @@ public class NavigationScreenViewer extends JFrame {
 		
 		public RouteScreen() {
 			
-			this.setTitle("Routes");
-			this.setSize(800, 500);
+			this.setTitle(TITLE);
+			this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 			
 			JPanel rr = new JPanel();
-			rr.setLayout(new GridLayout(2,1));
 			this.add(rr, BorderLayout.NORTH);
 			
 			JButton back = new JButton("BACK TO HOME SCREEN");
@@ -208,16 +223,19 @@ public class NavigationScreenViewer extends JFrame {
 			});
 			rr.add(back, BorderLayout.NORTH);
 			
-			JLabel choices = new JLabel("CHOOSE ROUTE BY...");
-			choices.setFont(new Font("Serif", Font.BOLD, 35));
-			rr.add(choices);
-			
 			JPanel buts = new JPanel();
 			buts.setLayout(new GridLayout(2,2));
 			this.add(buts, BorderLayout.CENTER);
 			
 			JButton shortestDistance = new JButton("Shortest Distance");
 			shortestDistance.setFont(forAll);
+			shortestDistance.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+					new SelectionScreen();
+				}
+				
+			});
 			buts.add(shortestDistance);
 			
 			JButton shortestTime = new JButton("Shortest Time");
@@ -239,12 +257,79 @@ public class NavigationScreenViewer extends JFrame {
 		}
 	}
 	
+	public class SelectionScreen extends JFrame{
+		
+		public SelectionScreen() {
+			
+			this.setTitle(TITLE);
+			this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+			
+			JPanel jBack = new JPanel();
+			this.add(jBack, BorderLayout.NORTH);
+			
+			JPanel selectors = new JPanel();
+			this.add(selectors);
+			
+			JComboBox restaurants = new JComboBox(RESTAURANT_LIST);
+			restaurants.setSelectedItem(SELECT_ONE);
+			
+			JComboBox gasStations = new JComboBox(GAS_STATION_LIST);
+			gasStations.setSelectedItem(SELECT_ONE);
+			
+			JComboBox attractions = new JComboBox(ATTRACTION_LIST);
+			attractions.setSelectedItem(SELECT_ONE);
+			
+			JComboBox cities = new JComboBox(CITIES_LIST);
+			cities.setSelectedItem(SELECT_ONE);
+			
+			JComboBox locations = new JComboBox(LOCATION_LIST);
+			locations.setSelectedItem(SELECT_ONE);
+			selectors.add(locations, BorderLayout.NORTH);
+			locations.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JComboBox<?> b = (JComboBox<?>)e.getSource();
+					String loc = (String)b.getSelectedItem();
+					selectors.removeAll();
+					selectors.add(locations, BorderLayout.NORTH);
+					if(loc.compareTo("Restaurants") == 0) {
+						selectors.add(restaurants, BorderLayout.SOUTH);
+					} else if(loc.compareTo("Gas Stations") == 0) {
+						selectors.add(gasStations, BorderLayout.SOUTH);
+					} else if(loc.compareTo("Attractions") == 0) {
+						selectors.add(attractions, BorderLayout.SOUTH);
+					} else if(loc.compareTo("Cities") == 0) {
+						selectors.add(cities, BorderLayout.SOUTH);
+					}
+					selectors.validate();
+					selectors.repaint();
+				}
+			});
+			
+			JButton back = new JButton("BACK TO HOME SCREEN");
+			back.setBackground(Color.ORANGE);
+			back.setOpaque(true);
+			back.setBorderPainted(false);
+			back.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+					new UserScreen();
+				}
+			});
+			jBack.add(back);
+
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
+			this.setVisible(true);
+		}
+	}
+	
 	public class DestinationScreen extends JFrame{
 		
 		public DestinationScreen() {
 			
-			this.setTitle("Destination");
-			this.setSize(800, 500);
+			this.setTitle(TITLE);
+			this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 			
 			JPanel ds = new JPanel();
 			this.add(ds, BorderLayout.NORTH);
@@ -279,7 +364,6 @@ public class NavigationScreenViewer extends JFrame {
 			});
 			ds.add(back);
 			
-			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
 			this.setResizable(false);
@@ -298,8 +382,8 @@ public class NavigationScreenViewer extends JFrame {
 		
 		public LocationScreen() {
 			
-			this.setTitle("Locations");
-			this.setSize(800, 500);
+			this.setTitle(TITLE);
+			this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 			
 			
 			JPanel ls = new JPanel();
@@ -317,11 +401,7 @@ public class NavigationScreenViewer extends JFrame {
 				}
 			});
 			ls.add(back);
-			
-			JLabel locs = new JLabel("SELECT ONE FOR MORE OPTIONS");
-			locs.setFont(new Font("Serif", Font.BOLD, 30));
-			ls.add(locs);
-			
+	
 			JPanel tons = new JPanel();
 			tons.setLayout(new GridLayout(4,1));
 			this.add(tons, BorderLayout.EAST);
