@@ -79,16 +79,13 @@ public class WeightedGraph {
 	}
 	
 	public LinkedList<Integer> Astar(WeightedGraph graph, int source, int destination) {
-		//To be implemented to implement a new graph everytime
 		LinkedList<Integer> path = new LinkedList<Integer>();
 		PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>(this.vNum);
-		
-		boolean[] inqueue = new boolean[this.vNum];
 		
 		vertices[source].logical = 0;
 		vertices[source].function = 0;
 		queue.add(vertices[source]);
-		inqueue[source] = true;
+		
 		
 		while(!queue.isEmpty()) {
 			System.out.println(queue.toString());
@@ -101,15 +98,11 @@ public class WeightedGraph {
 				Vertex vertex = vertices[edge.destination];
 				
 				if(vertex.id == destination) {
-					System.out.println("=================================");
-					System.out.println(vertex.logical);
-					System.out.println("=================================");
 					queue.clear();
 					break;
 				}
 				
 				if((minVertex.logical + edge.weight) < vertex.logical) {
-					System.out.println("hjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjh");
 					vertex.logical = minVertex.logical + edge.weight;
 					vertex.heuristic = distance(vertex, vertices[destination]);
 					vertex.function = vertex.logical + vertex.heuristic;
