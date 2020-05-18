@@ -33,7 +33,7 @@ public class NavigationScreenViewer extends JFrame {
 	public static final String[] RESTAURANT_LIST = {SELECT_ONE, "All-Purpose Shaw", "Ambar Capitol Hill", "Bistro Aracosia", "Clyde’s of Georgetown",
 			"Founding Farmers DC ", "Le Diplomate", "Thip Khao Restaurant", "Zaytinya"};
 	public static final String[] GAS_STATION_LIST = {SELECT_ONE, "BP", "Davis EXXON", "Florida Avenue EXXON", "Marathon", "Sunco"};
-	public static final String[] ATTRACTION_LIST = {SELECT_ONE, "Basilica of the National Shrine of the Immaculate Conception", "Lafayette Square", "Lincoln Memorial", "Smithsonian National Air and Space Museum",
+	public static final String[] ATTRACTION_LIST = {SELECT_ONE, "Basilica of the National Shrine of the Immaculate Conception", "Lafayette Square", "Smithsonian National Air and Space Museum",
 			"Smithsonian National Zoological Park", "United States Holocaust Memorial Museum", "United States National Arboretum", "Washington National Cathedral"};
 	public static final String[] CITIES_LIST = {SELECT_ONE, "Indianapolis", "Tallahassee", "New York City", "Boston", "Honolulu", "Juneau"};
 

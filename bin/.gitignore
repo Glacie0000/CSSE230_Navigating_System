@@ -1,4 +1,5 @@
 /.DS_Store
+/GraphGenerator.class
 /Location.class
 /Main.class
 /NavigationScreenViewer$1.class
@@ -39,4 +40,3 @@
 /rest.png
 /routeoptions.png
 /viewmap.png
-/GraphGenerator.class
