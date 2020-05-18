@@ -10,5 +10,10 @@ public class Main {
 		ss.setResizable(false);
 		ss.setVisible(true);
 		
+		GraphGenerator gg = new GraphGenerator(23);
+		WeightedGraph graph = gg.generateGraph();
+		
+		//this is just to test
+		System.out.println(graph.Astar(graph, 0, 2).toString());
 	}
 }

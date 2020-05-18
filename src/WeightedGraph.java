@@ -4,24 +4,26 @@ import java.util.PriorityQueue;
 
 public class WeightedGraph {
 
-	private ArrayList<Edge> adj[];
+	private LinkedList<Edge> adj[];
 	public Vertex[] vertices;
 	public double distance;
 	private int vNum;
 	
 	public WeightedGraph(int vNum){
 		this.vNum = vNum;
-		Vertex[] vertices = new Vertex[this.vNum];
+		vertices = new Vertex[this.vNum];
+		this.adj = new LinkedList[vNum];
 		for(int i = 0; i < vNum; i++)
-			this.adj[i] = new ArrayList<Edge>();
+			this.adj[i] = new LinkedList<Edge>();
 	}
 	
-	public void addEdge(int source, int destination, int weight) {
+	public void addEdge(int source, int destination, double weight) {
 		this.adj[source].add(new Edge(source, destination, weight));
 	}
 	
-	public void addVertex(int id, int x, int y) {
+	public void addVertex(int id, double x, double y) {
 		vertices[id] = new Vertex(id,x,y);
+		System.out.println(id);
 	}
 	
 	private class Vertex implements Comparable<Vertex>{
@@ -30,13 +32,14 @@ public class WeightedGraph {
 	    public double heuristic;
 	    public double logical;
 	    public double function;
-		public Vertex(int id, int x, int y) {
+	    
+		public Vertex(int id, double x, double y) {
 			this.x = x;
 			this.y = y;
 			this.id = id;
-			function = Integer.MAX_VALUE;
-			this.heuristic = Integer.MAX_VALUE;
-			this.logical = Integer.MAX_VALUE;
+			this.function = Double.MAX_VALUE;
+			this.heuristic = Double.MAX_VALUE;
+			this.logical = Double.MAX_VALUE;
 		}
 		@Override
 		public int compareTo(Vertex vertex) {
@@ -51,14 +54,19 @@ public class WeightedGraph {
 			return 0;
 		}
 		
+		@Override
+		public String toString() {
+			return "id: " + id + " heuristic: " + heuristic + " logical: " + logical + "\n";
+		}
+		
 	}
 	
 	private class Edge {
 		private int source;
 		private int destination;
-		int weight;
+		double weight;
 		
-		public Edge(int source, int destination, int weight) {
+		public Edge(int source, int destination, double weight) {
 			this.source = source;
 			this.destination = destination;
 			this.weight = weight;
@@ -66,8 +74,8 @@ public class WeightedGraph {
 		
 	}
 	
-	public double manhattanDistance(Vertex v1, Vertex v2) {
-		return Math.sqrt(Math.pow((v2.x - v1.x), 2.0)+ Math.pow((v2.y - v1.y), 2.0));
+	public double distance(Vertex v1, Vertex v2) {
+		return Math.sqrt(Math.pow((v2.x - v1.x), 2.0)+ Math.pow((v2.y - v1.y), 2.0)) * 75000;
 	}
 	
 	public LinkedList<Integer> Astar(WeightedGraph graph, int source, int destination) {
@@ -83,31 +91,37 @@ public class WeightedGraph {
 		inqueue[source] = true;
 		
 		while(!queue.isEmpty()) {
+			System.out.println(queue.toString());
 			Vertex minVertex = queue.poll();
 			path.add(minVertex.id);
+			
+			
 			for(int i = 0; i < graph.adj[minVertex.id].size(); i++) {
 				Edge edge = graph.adj[minVertex.id].get(i);
 				Vertex vertex = vertices[edge.destination];
 				
-				if((minVertex.logical + edge.weight) < vertex.logical) {
-					vertex.logical = minVertex.logical + edge.weight;
-					vertex.heuristic = manhattanDistance(vertex, vertices[destination]);
-					vertex.function = vertex.logical + vertex.heuristic;
-				}
-				
-				if(inqueue[vertex.id] == false) {
-					queue.add(vertex);
-					inqueue[vertex.id] = true;
-				}else {
-					queue.add(vertex);
-				}
-				
-				
 				if(vertex.id == destination) {
+					System.out.println("=================================");
+					System.out.println(vertex.logical);
+					System.out.println("=================================");
 					queue.clear();
 					break;
 				}
 				
+				if((minVertex.logical + edge.weight) < vertex.logical) {
+					System.out.println("hjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjhjh");
+					vertex.logical = minVertex.logical + edge.weight;
+					vertex.heuristic = distance(vertex, vertices[destination]);
+					vertex.function = vertex.logical + vertex.heuristic;
+				
+					if(queue.contains(vertex) == false) {
+						queue.add(vertex);
+					}else {
+						queue.remove(vertex);
+						queue.add(vertex);
+					}
+					
+				}
 			}
 		}
 		return path;
