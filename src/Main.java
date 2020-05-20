@@ -14,6 +14,7 @@ public class Main {
 		WeightedGraph graph = gg.generateGraph();
 		
 		//this is just to test
-		System.out.println(graph.Astar(graph, 0, 2).toString());
+		
+		System.out.println(graph.shortestPath(graph.Astar(graph, 0, 11)).toString());
 	}
 }

@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+import sun.security.provider.certpath.Vertex;
+
 public class WeightedGraph {
 
 	private LinkedList<Edge> adj[];
@@ -32,7 +34,7 @@ public class WeightedGraph {
 	    public double heuristic;
 	    public double logical;
 	    public double function;
-	    
+	    public Vertex lastVertex = null;
 		public Vertex(int id, double x, double y) {
 			this.x = x;
 			this.y = y;
@@ -75,10 +77,22 @@ public class WeightedGraph {
 	}
 	
 	public double distance(Vertex v1, Vertex v2) {
-		return Math.sqrt(Math.pow((v2.x - v1.x), 2.0)+ Math.pow((v2.y - v1.y), 2.0)) * 75000;
+		return Math.sqrt(Math.pow((v2.x - v1.x), 2.0)+ Math.pow((v2.y - v1.y), 2.0)) * 80000;
 	}
 	
-	public LinkedList<Integer> Astar(WeightedGraph graph, int source, int destination) {
+	public LinkedList<Integer> shortestPath(Vertex vertex){
+		
+		LinkedList<Integer> path = new LinkedList<Integer>();
+		path.add(vertex.id);
+		while(vertex.lastVertex != null) {
+			path.add(vertex.lastVertex.id);
+			vertex = vertex.lastVertex;
+		}
+		
+		return path;
+	}
+	
+	public Vertex Astar(WeightedGraph graph, int source, int destination) {
 		LinkedList<Integer> path = new LinkedList<Integer>();
 		PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>(this.vNum);
 		
@@ -92,20 +106,22 @@ public class WeightedGraph {
 			Vertex minVertex = queue.poll();
 			path.add(minVertex.id);
 			
-			
+			if(minVertex.id == destination) {
+					// queue.clear();
+					return minVertex;
+//					break;
+			}
 			for(int i = 0; i < graph.adj[minVertex.id].size(); i++) {
 				Edge edge = graph.adj[minVertex.id].get(i);
 				Vertex vertex = vertices[edge.destination];
 				
-				if(vertex.id == destination) {
-					queue.clear();
-					break;
-				}
+				
 				
 				if((minVertex.logical + edge.weight) < vertex.logical) {
 					vertex.logical = minVertex.logical + edge.weight;
 					vertex.heuristic = distance(vertex, vertices[destination]);
 					vertex.function = vertex.logical + vertex.heuristic;
+					vertex.lastVertex = minVertex;
 				
 					if(queue.contains(vertex) == false) {
 						queue.add(vertex);
@@ -117,7 +133,7 @@ public class WeightedGraph {
 				}
 			}
 		}
-		return path;
+		return null;
 		
 	}
 	
