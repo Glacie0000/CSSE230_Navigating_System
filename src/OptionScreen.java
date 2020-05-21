@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorListener;
+
+import org.w3c.dom.Node;
+
 import javax.swing.SpringLayout;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Line;
@@ -23,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.awt.GridLayout;
 import java.awt.Image;
 
@@ -38,12 +42,15 @@ public class OptionScreen extends JFrame {
 	static final String[] REST_LETTERS = {"A", "E", "I", "K", "L", "O", "S", "U"};
 	static final String[] GAS_LETTERS = {"C", "G", "H", "J", "M", "N", "P", "Q"};
 	static final String[] ATTR_LETTERS = {"B", "D", "F", "R", "T", "V", "W"};
+	static final String[] ALL_LETTERS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W"};
 	
 	public static final String[] RESTAURANT_LIST = {"Bistro Aracosia", "Thip Khao Restaurant", "Clydes of Georgetown", "Founding Farmers DC", 
 			"Le Diplomate", "All-Purpose Shaw", "Ambar Capitol Hill", "Zaytinya"};
 	public static final String[] GAS_STATION_LIST = {"Davis EXXON", "Sunco", "Sunco", "Sunco", "Marathon", "BP", "Florida Avenue EXXON",  "Marathon"};
 	public static final String[] ATTRACTION_LIST = {"Washington National Cathedral", "Smithsonian National Zoological Park",  "Basilica of the National Shrine of the Immaculate Conception",
 			"United States National Arboretum", "Smithsonian National Air and Space Museum", "Lafayette Square", "United States Holocaust Memorial Museum"};
+	public static final int W_AND_H = 15;
+	
 	JComboBox startingLoc;
 	JComboBox endingLoc;
 	JComboBox restaurants = new JComboBox(REST_LETTERS);
@@ -51,6 +58,10 @@ public class OptionScreen extends JFrame {
 	JComboBox attractions = new JComboBox(ATTR_LETTERS);
 	JLabel placeStart;
 	JLabel placeEnd;
+	JPanel testingP;
+	
+	public String startLetter;
+	public String endLetter;
 	
 	public SpecificPlaceListener startAttractionListener = new SpecificPlaceListener(ATTR_LETTERS);
 	public SpecificPlaceListener startRestaurantListener = new SpecificPlaceListener(REST_LETTERS);
@@ -60,13 +71,9 @@ public class OptionScreen extends JFrame {
 	public SpecificPlaceListener endRestaurantListener = new SpecificPlaceListener(REST_LETTERS);
 	public SpecificPlaceListener endGasListener = new SpecificPlaceListener(GAS_LETTERS);
 	
-	
-	JPanel testingP;
-	public static final int W_AND_H = 15;
-	HashMap<String, Integer> exes = new HashMap<String, Integer>(23);
-	HashMap<String, Integer> whys = new HashMap<String, Integer>(23);
-	
-	HashMap<String, int[]> lines = new HashMap<String, int[]>();
+	public HashMap<String, Integer> exes = new HashMap<String, Integer>(23);
+	public HashMap<String, Integer> whys = new HashMap<String, Integer>(23);
+	public HashMap<String, int[]> lines = new HashMap<String, int[]>();
 	
 	private BufferedImage nodes;
 	
@@ -136,7 +143,8 @@ public class OptionScreen extends JFrame {
 		// panel for lines and dots
 		testingP = new JPanel() {
 			
-			protected void paintComponent(Graphics g) {
+			@Override
+			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				Graphics2D g2 = (Graphics2D) g.create();
 				if(nodes != null) {
@@ -149,10 +157,14 @@ public class OptionScreen extends JFrame {
 						int[] coords = {exes.get(dots) + 5, whys.get(dots) + 5};
 						lines.put(dots, coords);
 					}
-					g2.drawLine(lines.get("A")[0], lines.get("A")[1], lines.get("B")[0], lines.get("B")[1]);
+					LinkedList<String> curLocation = getLocations(startLetter, endLetter);
+					for(int k=0; k<curLocation.size() - 1; k++) {
+						g2.drawLine(lines.get(curLocation.get(k))[0], lines.get(curLocation.get(k))[1], lines.get(curLocation.get(k+1))[0], lines.get(curLocation.get(k+1))[1]);
+					}
 				}
 			}
 		};
+		
 		
 		testingP.setLayout(new GridLayout(1, 0, 0, 0));
 		getContentPane().add(testingP);
@@ -236,15 +248,34 @@ public class OptionScreen extends JFrame {
 		endingLoc.setEnabled(false);
 		buttonPanel.add(endingLoc);
 
-		// adding specificplacelistener to combo box
-		
-
 		// label to display selected ENDING location
 		placeEnd = new JLabel("You have not selected anywhere.");
 		placeEnd.setFont(new Font("Rockwell", Font.ITALIC, 20));
 		buttonPanel.add(placeEnd);
 		
 		setVisible(true);
+	}
+	
+	public LinkedList<String> getLocations(String start, String end) {
+		GraphGenerator gg = new GraphGenerator(23);
+		WeightedGraph graph = gg.generateGraph();
+		
+		ArrayList<String> easy = new ArrayList<String>();
+		for(int p=0; p<ALL_LETTERS.length; p++) {
+			easy.add(ALL_LETTERS[p]);
+		}
+		
+		int begin = easy.indexOf(start);
+		int stop = easy.indexOf(end);
+		
+		LinkedList<Integer> indices = graph.shortestPath(graph.Astar(graph, begin, stop));
+		LinkedList<String> letters = new LinkedList<String>();
+		
+		for(int i=0; i < indices.size(); i++) {
+			letters.add(easy.get(indices.get(i)));
+		}
+	
+		return letters;
 	}
 	
 	
@@ -296,20 +327,29 @@ public class OptionScreen extends JFrame {
 			if(e.getSource().equals(startingLoc)) {
 				if(lets.equals(REST_LETTERS)) {
 					placeStart.setText("You have selected " + RESTAURANT_LIST[startingLoc.getSelectedIndex()]);
+					startLetter = REST_LETTERS[startingLoc.getSelectedIndex()];
 				} else if(lets.equals(ATTR_LETTERS)) {
 					placeStart.setText("You have selected " + ATTRACTION_LIST[startingLoc.getSelectedIndex()]);
+					startLetter = ATTR_LETTERS[startingLoc.getSelectedIndex()];
 				} else if(lets.equals(GAS_LETTERS)) {
 					placeStart.setText("You have selected " + GAS_STATION_LIST[startingLoc.getSelectedIndex()]);
+					startLetter = GAS_LETTERS[startingLoc.getSelectedIndex()];
 				}
 			} else if(e.getSource().equals(endingLoc)) {
 				if(lets.equals(REST_LETTERS)) {
 					placeEnd.setText("You have selected " + RESTAURANT_LIST[endingLoc.getSelectedIndex()]);
+					endLetter = REST_LETTERS[endingLoc.getSelectedIndex()];
 				} else if(lets.equals(ATTR_LETTERS)) {
 					placeEnd.setText("You have selected " + ATTRACTION_LIST[endingLoc.getSelectedIndex()]);
+					endLetter = ATTR_LETTERS[endingLoc.getSelectedIndex()];
 				} else if(lets.equals(GAS_LETTERS)) {
 					placeEnd.setText("You have selected " + GAS_STATION_LIST[endingLoc.getSelectedIndex()]);
+					endLetter = GAS_LETTERS[endingLoc.getSelectedIndex()];
 				}
 			}
+			System.out.println("End Letter is: " + endLetter);
+			System.out.println("Start Letter is: " + startLetter);
+//			testingP.repaint();
 		}
 	}
 	
