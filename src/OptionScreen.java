@@ -349,7 +349,7 @@ public class OptionScreen extends JFrame {
 			}
 			System.out.println("End Letter is: " + endLetter);
 			System.out.println("Start Letter is: " + startLetter);
-//			testingP.repaint();
+			testingP.repaint();
 		}
 	}
 	
