@@ -60,8 +60,8 @@ public class OptionScreen extends JFrame {
 	JLabel placeEnd;
 	JPanel testingP;
 	
-	public String startLetter = "A";
-	public String endLetter = "A";
+	public String startLetter = null;
+	public String endLetter = null;
 	
 	public SpecificPlaceListener startAttractionListener = new SpecificPlaceListener(ATTR_LETTERS);
 	public SpecificPlaceListener startRestaurantListener = new SpecificPlaceListener(REST_LETTERS);
@@ -157,9 +157,11 @@ public class OptionScreen extends JFrame {
 						int[] coords = {exes.get(dots) + 5, whys.get(dots) + 5};
 						lines.put(dots, coords);
 					}
-					LinkedList<String> curLocation = getLocations(startLetter, endLetter);
-					for(int k=0; k<curLocation.size() - 1; k++) {
-						g2.drawLine(lines.get(curLocation.get(k))[0], lines.get(curLocation.get(k))[1], lines.get(curLocation.get(k+1))[0], lines.get(curLocation.get(k+1))[1]);
+					if(startLetter != null && endLetter != null) {
+						LinkedList<String> curLocation = getLocations(startLetter, endLetter);
+						for(int k=0; k<curLocation.size() - 1; k++) {
+							g2.drawLine(lines.get(curLocation.get(k))[0], lines.get(curLocation.get(k))[1], lines.get(curLocation.get(k+1))[0], lines.get(curLocation.get(k+1))[1]);
+						}
 					}
 				}
 			}
