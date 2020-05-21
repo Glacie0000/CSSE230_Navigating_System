@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		NavigationScreenViewer ss = new NavigationScreenViewer();
+		NavigationScreen ss = new NavigationScreen();
 		ss.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ss.setLocationRelativeTo(null);
 		ss.setResizable(false);

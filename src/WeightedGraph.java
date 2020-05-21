@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-import sun.security.provider.certpath.Vertex;
 
 public class WeightedGraph {
 
