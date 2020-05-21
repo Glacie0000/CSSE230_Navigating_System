@@ -60,8 +60,8 @@ public class OptionScreen extends JFrame {
 	JLabel placeEnd;
 	JPanel testingP;
 	
-	public String startLetter;
-	public String endLetter;
+	public String startLetter = "A";
+	public String endLetter = "A";
 	
 	public SpecificPlaceListener startAttractionListener = new SpecificPlaceListener(ATTR_LETTERS);
 	public SpecificPlaceListener startRestaurantListener = new SpecificPlaceListener(REST_LETTERS);
@@ -143,8 +143,8 @@ public class OptionScreen extends JFrame {
 		// panel for lines and dots
 		testingP = new JPanel() {
 			
-			@Override
-			public void paintComponent(Graphics g) {
+			
+			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				Graphics2D g2 = (Graphics2D) g.create();
 				if(nodes != null) {
@@ -326,24 +326,24 @@ public class OptionScreen extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource().equals(startingLoc)) {
 				if(lets.equals(REST_LETTERS)) {
-					placeStart.setText("You have selected " + RESTAURANT_LIST[startingLoc.getSelectedIndex()]);
+					placeStart.setText("<html>You have selected <br/>" + RESTAURANT_LIST[startingLoc.getSelectedIndex()]+ "</html>");
 					startLetter = REST_LETTERS[startingLoc.getSelectedIndex()];
 				} else if(lets.equals(ATTR_LETTERS)) {
-					placeStart.setText("You have selected " + ATTRACTION_LIST[startingLoc.getSelectedIndex()]);
+					placeStart.setText("<html>You have selected <br/>" + ATTRACTION_LIST[startingLoc.getSelectedIndex()]+ "</html>");
 					startLetter = ATTR_LETTERS[startingLoc.getSelectedIndex()];
 				} else if(lets.equals(GAS_LETTERS)) {
-					placeStart.setText("You have selected " + GAS_STATION_LIST[startingLoc.getSelectedIndex()]);
+					placeStart.setText("<html>You have selected <br/>" + GAS_STATION_LIST[startingLoc.getSelectedIndex()]+ "</html>");
 					startLetter = GAS_LETTERS[startingLoc.getSelectedIndex()];
 				}
 			} else if(e.getSource().equals(endingLoc)) {
 				if(lets.equals(REST_LETTERS)) {
-					placeEnd.setText("You have selected " + RESTAURANT_LIST[endingLoc.getSelectedIndex()]);
+					placeEnd.setText("<html>You have selected <br/>" + RESTAURANT_LIST[endingLoc.getSelectedIndex()]+ "</html>");
 					endLetter = REST_LETTERS[endingLoc.getSelectedIndex()];
 				} else if(lets.equals(ATTR_LETTERS)) {
-					placeEnd.setText("You have selected " + ATTRACTION_LIST[endingLoc.getSelectedIndex()]);
+					placeEnd.setText("<html>You have selected <br/>" + ATTRACTION_LIST[endingLoc.getSelectedIndex()]+ "</html>");
 					endLetter = ATTR_LETTERS[endingLoc.getSelectedIndex()];
 				} else if(lets.equals(GAS_LETTERS)) {
-					placeEnd.setText("You have selected " + GAS_STATION_LIST[endingLoc.getSelectedIndex()]);
+					placeEnd.setText("<html>You have selected <br/>" + GAS_STATION_LIST[endingLoc.getSelectedIndex()] + "</html>");
 					endLetter = GAS_LETTERS[endingLoc.getSelectedIndex()];
 				}
 			}
