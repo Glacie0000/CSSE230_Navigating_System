@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.Line;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -34,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import java.awt.FlowLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 
 public class OptionScreen extends JFrame {
 
@@ -300,9 +302,22 @@ public class OptionScreen extends JFrame {
 		shortTime.addActionListener(new DistanceorTimeDisplayListener(shortTime));
 		buttonPanel.add(shortTime);
 		
-		shortestLabel = new JLabel("It will take you ...");
+		shortestLabel = new JLabel("Please select one of the above for more info.");
 		shortestLabel.setFont(new Font("High Tower Text", Font.PLAIN, 25));
 		buttonPanel.add(shortestLabel);
+		
+		JButton homeScreenButton = new JButton("Return to Home Screen");
+		homeScreenButton.setBackground(Color.YELLOW);
+		homeScreenButton.setFont(new Font("High Tower Text", Font.BOLD, 20));
+		buttonPanel.add(homeScreenButton);
+		homeScreenButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new NavigationScreen();
+			}
+		});
 		
 		methods.add(shortTime);
 		methods.add(shortDist);

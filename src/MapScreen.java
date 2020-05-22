@@ -37,20 +37,26 @@ public class MapScreen extends JFrame {
 	private ImageIcon map = new ImageIcon("images/locs.png");
 	private String currentDisplay; 
 	
+	JPanel mapPanel;
 	JLabel joke;
+	JLabel curLocations;
 	
 	public String[] posLocs = {"Attractions", "Restaurants", "Gas Stations"};
 	public String[] jokes = {"<html>I cannot believe I <br/> got fired from the calendar <br/>factory: all I did was<br/> take a day off!</html>", 
 			"<html>Money talks: <br/>mine always says <br/>is goodbye.</html>", 
-			"<html>I went to see the doctor <br/>about my short-term <br/>memory problems — the <br/>first thing he did was make <br/>me pay in advance.</html>",
-			"<html>Today a man knocked <br/>on my doorand asked for <br/> a smalldonation towards<br/> the local swimming pool. I gave him a glass of water.</html>",
-			"<html>Most people are <br/>shocked when they find<br/> out how bad I am as<br/> an electrician.</html>", "<html>Do not trust atoms,<br/> they make up everything.</html>", 
+			"<html>Today a man asked me for a small donation towards the local swimming pool. I gave him a glass of water.</html>",
+			"<html>Most people are <br/>shocked when they find<br/> out how bad I am as<br/> an electrician.</html>", 
+			"<html>Do not trust atoms,<br/> they make up everything.</html>", 
 			"<html>I am reading a <br/>book about anti-gravity. <br/>It is impossible <br/>to put down.</html>", 
-			"<html>What is the best<br/> thing about living in<br/> Switzerland? Well, <br/>the flag is<br/> a big plus.</html>", 
-			"<html>The worst time<br/> to have a heart<br/> attack is during <br/>a game of charades.</html>", "<html>My boss is going <br/>to fire the employee<br/> with the worst posture.<br/> I have a hunch, <br/>it might be me.</html>",
-			"<html>I started out<br/> with nothing, and <br/>I still have<br/> most of it.</html>", "<html>The first time <br/>I got a universal remote control<br/> I thought to myself,<br/> This changes everything.</html>",
-			"<html>When everything <br/>is coming your way<br/> — you’re in the<br/> wrong lane.</html>", "<html>Where there’s <br/>a will,<br/> there’s a relative.", "<html>If money doesn’t<br/> grow on trees,<br/> how come banks<br/> have branches?</html>",
-			"<html>When my boss asked me<br/> who was stupid, <br/>me or him, I told him<br/> he doesn’t hire <br/>stupid people.</html>"};
+			"<html>What is the best<br/> thing about living in<br/> Switzerland? Well, <br/>the flag is a big plus.</html>", 
+			"<html>The worst time<br/> to have a heart<br/> attack is during <br/>a game of charades.</html>",
+			"<html>My boss is going to fire <br/>the employee with the worst posture. I have a hunch, <br/> it might be me.</html>",
+			"<html>I started out<br/> with nothing, and <br/>I still have<br/> most of it.</html>", 
+			"<html>The first time <br/>I got a universal remote control I thought to myself, <br/> This changes everything.</html>",
+			"<html>When everything <br/>is coming your way<br/> — you’re in the<br/> wrong lane.</html>",
+			"<html>Where there’s <br/>a will,<br/> there’s a relative.",
+			"<html>If money doesn’t<br/> grow on trees,<br/> how come banks<br/> have branches?</html>",
+			"<html>When my boss asked me<br/> who was stupid, me or him, <br/>I told him he doesn’t hire stupid people.</html>"};
 
 
 	/**
@@ -66,23 +72,19 @@ public class MapScreen extends JFrame {
 		setBounds(100, 100, 1000, 700);
 		getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JPanel mapPanel = new JPanel();
+		mapPanel = new JPanel();
 		getContentPane().add(mapPanel);
-		SpringLayout sl_mapPanel = new SpringLayout();
-		mapPanel.setLayout(sl_mapPanel);
 		
 		JPanel textPanel = new JPanel();
 		getContentPane().add(textPanel);
 		SpringLayout sl_textPanel = new SpringLayout();
 		textPanel.setLayout(sl_textPanel);
 		
-		JLabel curLocations = new JLabel("<html> CURRENTLY DISPLAYING <br/> ALL LOCATIONS</html>");
+		curLocations = new JLabel("<html> CURRENTLY DISPLAYING <br/> ALL LOCATIONS</html>");
 		sl_textPanel.putConstraint(SpringLayout.NORTH, curLocations, 5, SpringLayout.NORTH, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.WEST, curLocations, 15, SpringLayout.WEST, textPanel);
 		curLocations.setFont(new Font("High Tower Text", Font.BOLD, 30));
 		textPanel.add(curLocations);
-		sl_mapPanel.putConstraint(SpringLayout.NORTH, curLocations, 54, SpringLayout.NORTH, mapPanel);
-		sl_mapPanel.putConstraint(SpringLayout.WEST, curLocations, 72, SpringLayout.WEST, mapPanel);
 		
 		JComboBox possibleLocations = new JComboBox(posLocs);
 		possibleLocations.setFont(new Font("High Tower Text", Font.ITALIC, 40));
@@ -92,12 +94,22 @@ public class MapScreen extends JFrame {
 		sl_textPanel.putConstraint(SpringLayout.EAST, possibleLocations, -10, SpringLayout.EAST, textPanel);
 		textPanel.add(possibleLocations);
 		
+		possibleLocations.addActionListener(new DisplayListener(possibleLocations));
+		
 		JButton homeScreen = new JButton("Return to Home Screen");
-		homeScreen.setBackground(Color.BLUE);
-		homeScreen.setFont(new Font("High Tower Text", Font.PLAIN, 20));
+		homeScreen.setBackground(Color.YELLOW);
+		homeScreen.setFont(new Font("High Tower Text", Font.BOLD, 20));
 		sl_textPanel.putConstraint(SpringLayout.SOUTH, homeScreen, -10, SpringLayout.SOUTH, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.EAST, homeScreen, 0, SpringLayout.EAST, possibleLocations);
 		textPanel.add(homeScreen);
+		homeScreen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new NavigationScreen();
+			}
+		});
 		
 		joke = new JLabel(jokes[jokes.length - 1]);
 		sl_textPanel.putConstraint(SpringLayout.WEST, joke, 100, SpringLayout.WEST, textPanel);
@@ -117,19 +129,21 @@ public class MapScreen extends JFrame {
 		textPanel.add(jokeButton);
 		jokeButton.addActionListener(new JokeListener());
 		
-		Image m = map.getImage().getScaledInstance(625, 700, Image.SCALE_SMOOTH);
+		Image m = map.getImage().getScaledInstance(625, 500, Image.SCALE_SMOOTH);
 		map = new ImageIcon(m);
+		JLabel forMaps = new JLabel(map);
+		mapPanel.add(forMaps, BorderLayout.CENTER);
 		
 		// gas station map
-		Image g = gas.getImage().getScaledInstance(625, 700, Image.SCALE_SMOOTH);
+		Image g = gas.getImage().getScaledInstance(625, 500, Image.SCALE_SMOOTH);
 		gas = new ImageIcon(g);
 		
 		// attractions map
-		Image a = attractions.getImage().getScaledInstance(625, 700, Image.SCALE_SMOOTH);
+		Image a = attractions.getImage().getScaledInstance(625, 500, Image.SCALE_SMOOTH);
 		attractions = new ImageIcon(a);
 		
 		// restaurants map
-		Image r = restaurants.getImage().getScaledInstance(625, 700, Image.SCALE_SMOOTH);
+		Image r = restaurants.getImage().getScaledInstance(625, 500, Image.SCALE_SMOOTH);
 		restaurants = new ImageIcon(r);
 		
 		setResizable(false);
@@ -147,6 +161,30 @@ public class MapScreen extends JFrame {
 			count++;
 			if(count == jokes.length) {
 				count = 0;
+			}
+		}
+	}
+	
+	public class DisplayListener implements ActionListener{
+		
+		JComboBox box;
+		
+		public DisplayListener(JComboBox j) {
+			this.box = j;
+		}
+		
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(box.getSelectedItem().equals("Attractions")) {
+				changeMap(mapPanel, attractions);
+				curLocations.setText("Currently Displaying Attractions");
+			} else if(box.getSelectedItem().equals("Restaurants")) {
+				changeMap(mapPanel, restaurants);
+				curLocations.setText("Currently Displaying Restaurants");
+			} else if(box.getSelectedItem().equals("Gas Stations")) {
+				changeMap(mapPanel, gas);
+				curLocations.setText("Currently Displaying Gas Stations");
 			}
 		}
 	}

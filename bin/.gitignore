@@ -40,7 +40,5 @@
 /OptionScreen$StartingLocationListener.class
 /NavigationScreen$1.class
 /NavigationScreen$2.class
-/.classpath
-/.gitignore
-/.project
-/map.jpg
+/MapScreen$DisplayListener.class
+/OptionScreen$2.class
