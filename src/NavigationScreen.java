@@ -45,7 +45,7 @@ public class NavigationScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-//				new SettingsScreen();
+				new SettingScreen();
 			}
 		});
 		contentPane.add(settingsButton, BorderLayout.NORTH);
@@ -114,7 +114,7 @@ public class NavigationScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-//				new TripPlannerScreen();
+				new TripPlannerScreen();
 			}
 		});
 		screenOptions.add(tripScreen);
