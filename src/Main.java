@@ -16,5 +16,6 @@ public class Main {
 		//this is just to test
 		
 		System.out.println(graph.shortestPath(graph.Astar(graph, 0, 11)).toString());
+		System.out.println(graph.getLogicDistances().toString());
 	}
 }

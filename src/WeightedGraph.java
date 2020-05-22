@@ -9,6 +9,7 @@ public class WeightedGraph {
 	public Vertex[] vertices;
 	public double distance;
 	private int vNum;
+	public LinkedList<Double> logicDistances = new LinkedList<Double>();
 
 	public WeightedGraph(int vNum) {
 		this.vNum = vNum;
@@ -26,7 +27,11 @@ public class WeightedGraph {
 		vertices[id] = new Vertex(id, x, y);
 		System.out.println(id);
 	}
-
+	
+	public LinkedList<Double> getLogicDistances(){
+		return this.logicDistances;
+	}
+	
 	private class Vertex implements Comparable<Vertex> {
 		public double x, y;
 		public int id;
@@ -85,8 +90,10 @@ public class WeightedGraph {
 	public LinkedList<Integer> shortestPath(Vertex vertex) {
 		LinkedList<Integer> path = new LinkedList<Integer>();
 		path.add(vertex.id);
+		logicDistances.add(vertex.logical);
 		while (vertex.lastVertex != null) {
 			path.add(vertex.lastVertex.id);
+			logicDistances.add(vertex.lastVertex.logical);
 			vertex = vertex.lastVertex;
 		}
 
