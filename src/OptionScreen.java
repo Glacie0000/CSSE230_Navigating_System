@@ -330,7 +330,7 @@ public class OptionScreen extends JFrame {
 			distanceTravel  += graph.getLogicDistances().get(i);
 		}
 		
-		distanceTravel = (double) Math.round(distanceTravel / 1000);
+		distanceTravel = (double) Math.round(distanceTravel / 1000)*0.5;
 
 		for (int i = 0; i < indices.size(); i++) {
 			letters.add(easy.get(indices.get(i)));
@@ -351,7 +351,7 @@ public class OptionScreen extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(button.getText().equals("Shortest Distance")) {
-				shortestLabel.setText("It will take you " + distanceTravel + "miles.");
+				shortestLabel.setText("The shortest route is " + distanceTravel + " miles.");
 			} else if(button.getText().equals("Shortest Time")) {
 				shortestLabel.setText("<html>It will take you " + (int)((distanceTravel*15) - (distanceTravel*2)) + "<br/>less minutes to travel by car <br/> than by foot</html>");
 			}
