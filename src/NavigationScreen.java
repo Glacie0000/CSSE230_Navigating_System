@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,31 +11,20 @@ import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
 
 public class NavigationScreen extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField nameField;
 	
+	private ImageIcon logo = new ImageIcon("images/checkered.jpeg");
+	
 	private String[] options = {"View Map", "Find Best Route", "Plan a Trip"};
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NavigationScreen frame = new NavigationScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -47,71 +37,92 @@ public class NavigationScreen extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.CENTER);
-		SpringLayout sl_panel_1 = new SpringLayout();
-		panel_1.setLayout(sl_panel_1);
-		
-		JLabel nameLabel = new JLabel("Your Name:");
-		sl_panel_1.putConstraint(SpringLayout.WEST, nameLabel, 100, SpringLayout.WEST, panel_1);
-		nameLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		panel_1.add(nameLabel);
-		
-		nameField = new JTextField();
-		sl_panel_1.putConstraint(SpringLayout.WEST, nameField, 55, SpringLayout.EAST, nameLabel);
-		sl_panel_1.putConstraint(SpringLayout.SOUTH, nameField, -460, SpringLayout.SOUTH, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.EAST, nameField, -320, SpringLayout.EAST, panel_1);
-		panel_1.add(nameField);
-		nameField.setColumns(10);
-		
-		JLabel choiceLabel = new JLabel("I want to...");
-		sl_panel_1.putConstraint(SpringLayout.NORTH, choiceLabel, 50, SpringLayout.SOUTH, nameLabel);
-		sl_panel_1.putConstraint(SpringLayout.WEST, choiceLabel, 0, SpringLayout.WEST, nameLabel);
-		choiceLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		panel_1.add(choiceLabel);
-		
-		JComboBox screenOptions = new JComboBox(options);
-		sl_panel_1.putConstraint(SpringLayout.NORTH, screenOptions, 30, SpringLayout.SOUTH, nameField);
-		sl_panel_1.putConstraint(SpringLayout.WEST, screenOptions, 0, SpringLayout.WEST, nameField);
-		sl_panel_1.putConstraint(SpringLayout.SOUTH, screenOptions, -330, SpringLayout.SOUTH, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.EAST, screenOptions, -85, SpringLayout.EAST, panel_1);
-		screenOptions.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		panel_1.add(screenOptions);
-		
-		JButton continueButton = new JButton("Continue");
-		sl_panel_1.putConstraint(SpringLayout.NORTH, continueButton, 105, SpringLayout.SOUTH, screenOptions);
-		sl_panel_1.putConstraint(SpringLayout.WEST, continueButton, 340, SpringLayout.WEST, panel_1);
-		continueButton.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		continueButton.addActionListener(new ActionListener() {
+		JButton settingsButton = new JButton("SETTINGS");
+		settingsButton.setBackground(Color.GRAY);
+		settingsButton.setOpaque(true);
+		settingsButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				if(screenOptions.getSelectedItem().toString().equals("View Map")) {
-					dispose();
-					new MapScreen();
-				} else if(screenOptions.getSelectedItem().toString().equals("Find Best Route")) {
-					dispose();
-					new OptionScreen();
-				} else if(screenOptions.getSelectedItem().toString().equals("Plan a Trip")) {
-					dispose();
-//					new TripPlannerScreen();
-				}
+//				new SettingsScreen();
 			}
-
 		});
-		panel_1.add(continueButton);
+		contentPane.add(settingsButton, BorderLayout.NORTH);
 		
-		JLabel startInstructions = new JLabel("Hello! Enter Your Information Below to Continue:");
-		sl_panel_1.putConstraint(SpringLayout.NORTH, nameField, 80, SpringLayout.SOUTH, startInstructions);
-		sl_panel_1.putConstraint(SpringLayout.NORTH, nameLabel, 70, SpringLayout.SOUTH, startInstructions);
-		sl_panel_1.putConstraint(SpringLayout.NORTH, startInstructions, 25, SpringLayout.NORTH, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.WEST, startInstructions, 45, SpringLayout.WEST, panel_1);
-		panel_1.add(startInstructions);
-		startInstructions.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		JButton exitButton = new JButton("EXIT");
+		exitButton.setBackground(Color.RED);
+		exitButton.setOpaque(true);
+		exitButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		contentPane.add(exitButton, BorderLayout.SOUTH);
 		
-		setVisible(true);
+		JPanel imagePanel = new JPanel();
+		contentPane.add(imagePanel, BorderLayout.WEST);
+		
+		Image g = logo.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+		logo = new ImageIcon(g);
+		JLabel logoLabel = new JLabel(logo);
+		imagePanel.add(logoLabel);
+		
+		JPanel screenOptions = new JPanel();
+		contentPane.add(screenOptions, BorderLayout.CENTER);
+		screenOptions.setLayout(new GridLayout(3,0,0,0));
+		
+		JButton mapScreen = new JButton("View Map");
+		mapScreen.setFont(new Font("High Tower Text", Font.BOLD, 30));
+		mapScreen.setBackground(Color.BLACK);
+		mapScreen.setForeground(Color.WHITE);
+		mapScreen.setOpaque(true);
+		mapScreen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new MapScreen();
+			}
+		});
+		screenOptions.add(mapScreen);
+		
+		JButton optionScreen = new JButton("Select Destination");
+		optionScreen.setFont(new Font("High Tower Text", Font.BOLD, 30));
+		optionScreen.setBackground(Color.WHITE);
+		optionScreen.setForeground(Color.BLACK);
+		optionScreen.setOpaque(true);
+		optionScreen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new OptionScreen();
+			}
+		});
+		screenOptions.add(optionScreen);
+		
+		JButton tripScreen = new JButton("Plan A Trip");
+		tripScreen.setFont(new Font("High Tower Text", Font.BOLD, 30));
+		tripScreen.setBackground(Color.BLACK);
+		tripScreen.setForeground(Color.WHITE);
+		tripScreen.setOpaque(true);
+		tripScreen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+//				new TripPlannerScreen();
+			}
+		});
+		screenOptions.add(tripScreen);
+		
+		
 		setLocationRelativeTo(null);
+		setVisible(true);
+		
 		
 	}
 }
