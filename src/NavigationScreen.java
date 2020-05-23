@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -45,7 +48,12 @@ public class NavigationScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new SettingScreen();
+				try {
+					new SettingScreen();
+				} catch (UnsupportedAudioFileException e1) {
+				} catch (IOException e1) {
+				} catch (LineUnavailableException e1) {
+				}
 			}
 		});
 		contentPane.add(settingsButton, BorderLayout.NORTH);
