@@ -3,6 +3,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.ButtonGroup;
@@ -15,42 +17,42 @@ import javax.swing.border.EmptyBorder;
 
 public class TripPlannerScreen extends JFrame{
 	
-	static final String[] citiesByCar = {"New York City", "Baltimore", "Philadelphia", "Boston"};
-	static final String[] citiesByPlane = {"New York City", "San Diego", "Beijing", "Paris", "Frankfurt", "Barcelona", "Cancun", "Rome", "Tokyo", "Dubai"};
-	static final String[] citiesByBus = {"Toronto", "Chicago", "New York", "Atlanta", "Indianapolis", "Dallas", "New Orleans"};
-	static final String[] citiesByTrain= {"Philadelphia", "New York", "Baltimore", "Richmond", "Williamsburg"};
+	public ArrayList<String> citiesByCar = new ArrayList<String>(Arrays.asList("New York City", "Baltimore", "Philadelphia", "Boston"));
+	public ArrayList<String> citiesByPlane = new ArrayList<String>(Arrays.asList("New York City", "San Diego", "Beijing", "Paris", "Frankfurt", "Barcelona", "Cancun", "Rome", "Tokyo", "Dubai"));
+	public ArrayList<String> citiesByBus = new ArrayList<String>(Arrays.asList("Toronto", "Chicago", "New York", "Atlanta", "Indianapolis", "Dallas", "New Orleans"));
+	public ArrayList<String> citiesByTrain= new ArrayList<String>(Arrays.asList("Philadelphia", "New York", "Baltimore", "Richmond", "Williamsburg"));
 	
-	static final HashMap<String, String> foodPlaces = new HashMap<String, String>(){{
+	public HashMap<String, String> foodPlaces = new HashMap<String, String>(){{
 		put("New York City", "Ugly Baby"); put("Baltimore", "True Chesapeake Oyster Co"); put("Philadelphia", "Suraya"); 
 		put("Boston", "Neptune Oyster"); put("San Diego", "Jeune et Jolie"); put("Beijing", "The View 3912"); put("Paris", "Le Boullion Chartier"); put("Frankfurt", "Ariston"); 
 		put("Barcelona", "Buneos Aires"); put("Cancun", "Porfirio's Cancun"); put("Rome", "Otello"); put("Tokyo", "Gonpachi Nishiazabu"); put("Toronto", "360 Restaurant");
 		put("Chicago", "The Purple Pig"); put("Indianapolis", "The Garden Table"); put("Dallas", "Five Sixty"); put("New Orleans", "Commander's Palace");
 		put("Richmond", "Stella's"); put("Williamsburg", "Food For Thought"); put("Dubai", "Al Dawaar"); 
 	}};
-	static final HashMap<String, String> historicalPlaces = new HashMap<String, String>(){{
+	public HashMap<String, String> historicalPlaces = new HashMap<String, String>(){{
 		put("New York City", "Ellis Island"); put("Baltimore", "Libery Bell Center"); put("Philadelphia", "Independence Hall"); 
 		put("Boston", "Freedom Trail"); put("San Diego", "USS Midway Mueseum"); put("Beijing", "Forbidden City"); put("Paris", "Arc De Triomphe"); put("Frankfurt", "Mercedez-Benz Museum"); 
 		put("Barcelona", "Montjuic Castle"); put("Cancun", "Mayan Museum"); put("Rome", "Colosseum"); put("Tokyo", "Samurai Museum"); put("Toronto", "Casa Loma");
 		put("Chicago", "Field Museum"); put("Indianapolis", "Indiana War Memorial"); put("Dallas", "Six Floor Museum"); put("New Orleans", "Jackson Square");
 		put("Richmond", "Historic Jamestown"); put("Williamsburg", "Jamestown Settlement"); put("Dubai", "Etihad Museum");
 	}};
-	static final HashMap<String, String> languagePlaces = new HashMap<String, String>(){{
+	public HashMap<String, String> languagePlaces = new HashMap<String, String>(){{
 		put("New York City", "Spanish"); put("San Diego", "Any Language"); put("Beijing", "Mandarin"); put("Paris", "French"); put("Frankfurt", "German"); 
 		put("Barcelona", "Catalan"); put("Cancun", "Spanish"); put("Rome", "Italian"); put("Tokyo", "Japenese"); put("New Orleans", "French"); put("Dubai", "Arabic");
 	}};
-	static final HashMap<String, String> ridePlaces = new HashMap<String, String>(){{
+	public HashMap<String, String> ridePlaces = new HashMap<String, String>(){{
 		put("New York City", "Luna Park"); put("Baltimore", "Adventure Park"); put("Philadelphia", "Sky Zone"); 
 		put("Boston", "Sky Zone"); put("San Diego", "Sea World"); put("Beijing", "Olympic Park"); put("Paris", "Jardin d'Acclimataion");  
 		put("Barcelona", "Tibidabo"); put("Cancun", "Parque Maya Tours"); put("Rome", "Oasi"); put("Tokyo", "Joypolis"); put("Toronto", "Centreville");
 		put("Chicago", "Field Museum"); put("Indianapolis", "Indiana War Memorial"); put("Dallas", "Six Floor Museum"); put("New Orleans", "Jackson Square"); put("Dubai", "Bollywood Parks");
 	}};
-	static final HashMap<String, String> shopPlaces = new HashMap<String, String>(){{
+	public HashMap<String, String> shopPlaces = new HashMap<String, String>(){{
 		put("New York City", "Manhattan Mall"); put("Baltimore", "Waverly"); put("Philadelphia", "Libery Place"); 
 		put("Boston", "Prudential Center"); put("San Diego", "Mesa"); put("Beijing", "New World"); put("Paris", "Carrousel de Louvre"); put("Frankfurt", "MyZeil"); 
 		put("Barcelona", "Maremagnum"); put("Cancun", "Forum By Sea"); put("Rome", "Portia de Roma"); put("Tokyo", "DiverCity"); put("Toronto", "Yorkdale");
 		put("Chicago", "Addison Mall"); put("Indianapolis", "Circle Center"); put("Dallas", "Galleria"); put("New Orleans", "Canal Place"); put("Dubai", "Dubai Mall"); 
 	}};
-	static final HashMap<String, String> naturePlaces = new HashMap<String, String>(){{
+	public HashMap<String, String> naturePlaces = new HashMap<String, String>(){{
 		put("New York City", "The Ramble"); put("Baltimore", "Lake Roland"); put("Philadelphia", "FairMount Park"); 
 		put("Boston", "Breakheart Reservation"); put("San Diego", "Los Penasquitos Canyon"); put("Beijing", "Fragrant Hills"); put("Paris", "Jardin de Tuileries"); put("Frankfurt", "Schwanheimer Dune"); 
 		put("Barcelona", "Collserola"); put("Cancun", "Xcaret"); put("Rome", "Villa Ada"); put("Tokyo", "Meiji Shrine"); put("Toronto", "Mono Cliffs");
@@ -234,7 +236,6 @@ public class TripPlannerScreen extends JFrame{
 					}
 				}
 			}
-			
 		}else if(actType.equals("<html>Visit Historical <br/> Sites</html>")) {
 			if(vType.equals("Car")) {
 				for(String k : citiesByCar) {
@@ -413,6 +414,18 @@ public class TripPlannerScreen extends JFrame{
 		if(what == null || where == null) {
 			return;
 		}
+		if(citiesByCar.contains(where)) {
+			citiesByCar.remove(where);
+		}
+		if(citiesByTrain.contains(where)) {
+			citiesByTrain.remove(where);
+		}
+		if(citiesByBus.contains(where)) {
+			citiesByBus.remove(where);
+		}
+		if(citiesByPlane.contains(where)) {
+			citiesByPlane.remove(where);
+		}
 		
 		plannerLabel.setText("Trip Planner 3000 caluculate this: " + where + " for " + what);
 	}
@@ -428,6 +441,7 @@ public class TripPlannerScreen extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			actType = activity.getText();
+			System.out.println(citiesByCar.toString());
 			updateTripCalculator();
 		}
 	}
